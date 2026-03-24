@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visualizador Profesional BFS & A*</title>
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+<header>
+  <div class="logo-icon">&#127760;</div>
+  <div>
+    <h1>Visualizador Maestro: Inteligencia Artificial</h1>
+    <p>Búsqueda en Grafos: Implementación técnica de los algoritmos <strong>Breadth-First Search (BFS)</strong> y <strong>A* (A-Star)</strong>.<br>
+    Analiza la eficiencia temporal, el costo de ruta y el espacio de búsqueda explorado en tiempo real.</p>
+  </div>
+</header>
+
+<div class="main-container">
+  <aside class="control-panel">
+    
+    <div class="section-title">1. Selección de Algoritmo</div>
+    <div class="algo-selector">
+      <button class="btn-algo active-bfs" id="btn-bfs" onclick="setAlgo('bfs')">BFS</button>
+      <button class="btn-algo" id="btn-astar" onclick="setAlgo('astar')">A-Star</button>
+    </div>
+
+    <div class="section-title">2. Estructura del Grafo</div>
+    <label>Aristas y Pesos (Formato: A-B:5, B-C:2)</label>
+    <textarea id="edges" spellcheck="false" placeholder="Ingresa las conexiones...">A-B:4, A-C:2, B-D:5, C-D:1, D-G:3, B-G:8</textarea>
+
+    <div class="algo-selector">
+      <div>
+        <label>Nodo Inicio</label>
+        <input id="start" value="A" placeholder="A">
+      </div>
+      <div>
+        <label>Nodo Meta</label>
+        <input id="goal" value="G" placeholder="G">
+      </div>
+    </div>
+
+    <div id="astar-config" style="display:none">
+      <div class="section-title">3. Parámetros Heurísticos h(n)</div>
+      <label>Estimación al Objetivo (Formato: A:7, B:4)</label>
+      <textarea id="heuristics" spellcheck="false" placeholder="Valores de h(n)...">A:7, B:4, C:3, D:2, G:0</textarea>
+    </div>
+
+    <div class="section-title">Simulación</div>
+    <div style="display:flex; justify-content: space-between; align-items: center;">
+        <label>Velocidad</label>
+        <span id="speed-val" style="color:#4a9eff; font-weight:bold; font-size:12px">5x</span>
+    </div>
+    <input type="range" id="speed-slider" min="1" max="10" value="5" style="margin-top:-10px">
+
+    <div class="action-group">
+      <button class="btn-main" id="btn-run" onclick="startSearch()">&#9654; Ejecutar Algoritmo</button>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+        <button class="btn-sub" onclick="resetUI()">&#8634; Reiniciar</button>
+        <button class="btn-sub btn-export" onclick="exportCanvas()">&#128247; Exportar</button>
+      </div>
+    </div>
+
+    <div class="section-title">Registro de Eventos</div>
+    <div class="log-container" id="log-box">
+      <div class="log-entry log-info">Esperando parámetros de entrada...</div>
+    </div>
+  </aside>
+
+  <main class="viewport">
+    <canvas id="main-canvas"></canvas>
+    
+    <div class="hud-stats" id="hud-stats" style="opacity: 0">
+      <div class="stat-box">
+        <small>Nodos Explorados</small>
+        <span id="stat-visited">0</span>
+      </div>
+      <div class="stat-box">
+        <small>Costo de Ruta</small>
+        <span id="stat-cost">0</span>
+      </div>
+    </div>
+
+    <div class="timer-box" id="timer-hud" style="display:none">
+        &#9201; <span id="cpu-time">0.0000</span> ms (Cálculo)
+    </div>
+
+    <div class="legend-box">
+      <div class="legend-item"><div class="circle-indicator" style="background:#1a2540; border-color:#3a5080"></div> Sin visitar</div>
+      <div class="legend-item"><div class="circle-indicator" style="background:#1a3a7a; border-color:#4a9eff"></div> Frontera (Abiertos)</div>
+      <div class="legend-item"><div class="circle-indicator" style="background:#3a1a7a; border-color:#8a5aff"></div> Expandido (Cerrados)</div>
+      <div class="legend-item"><div class="circle-indicator" style="background:#6a5000; border-color:#f0a500"></div> Nodo bajo análisis</div>
+      <div class="legend-item"><div class="circle-indicator" style="background:#0d3520; border-color:#4ecb71"></div> Ruta Óptima</div>
+      <div class="legend-item"><div class="circle-indicator" style="background:#5a0d0d; border-color:#ff4444"></div> Objetivo</div>
+    </div>
+  </main>
+</div>
+
+<div class="error-toast" id="error-toast"></div>
+
+<script src="./algorithms.js"></script>
+<script src="./app.js"></script>
+</body>
+</html>
